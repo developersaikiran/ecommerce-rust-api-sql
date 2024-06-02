@@ -33,3 +33,15 @@ pub fn server_error_response<T, E>(data: T, message: &str, err: E) -> ResponseIn
 pub fn bad_request_response<T, E>(data: T, message: &str, err: E) -> ResponseInterface<T, E> {
     ResponseInterface::new(400, false, message, data, Some(err))
 }
+
+pub fn invalid_token_response<T, E>(data: T, message: &str, err: E) -> ResponseInterface<T, E> {
+    ResponseInterface::new(401, false, message, data, Some(err))
+}
+
+pub fn forbidden_response<T, E>(data: T, message: &str, err: E) -> ResponseInterface<T, E> {
+    ResponseInterface::new(403, false, message, data, Some(err))
+}
+
+// pub fn invalid_token_response<T, E>(data: T, message: &str, err: E) -> ResponseInterface<T, E> {
+//     ResponseInterface::new(400, false, message, data, Some(err))
+// }

@@ -1,3 +1,3 @@
-pub mod login;
-pub mod registration;
+pub mod auth;
+pub mod product;
 

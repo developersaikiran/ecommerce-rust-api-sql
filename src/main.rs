@@ -11,12 +11,14 @@ use crate::services::{response};
 // use model::AppState;
 
 pub mod controllers;
+pub mod middleware;
 use crate::controllers::{user};
 
 mod routes;
 use crate::routes::{index};
 
 use env_logger::Env;
+use std::env;
 use std::fs::{self, OpenOptions};
 use dotenv::dotenv;
 
@@ -59,8 +61,8 @@ fn create_log_file() -> std::io::Result<std::fs::File> {
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     dotenv().ok();
-    let port = std::env::var("PORT_DEV").unwrap_or("8000".to_string());
-    let host = std::env::var("HOST_DEV").unwrap_or("8000".to_string());
+    let port = env::var(format!("PORT_{}", env::var("RUN_MODE").unwrap())).unwrap();
+    let host = env::var(format!("HOST_{}", env::var("RUN_MODE").unwrap())).unwrap();
 
     // setup_logger();
     // let log_file = create_log_file().expect("Failed to create log file");
@@ -72,9 +74,9 @@ async fn main() -> std::io::Result<()> {
 
     HttpServer::new(move || {
         let cors = Cors::default()
-            .allowed_origin("http://localhost:3000")
-            .allowed_origin("http://localhost:3000/")
-            .allowed_methods(vec!["GET", "POST", "PATCH", "DELETE"])
+            // .allowed_origin("http://localhost:3000")
+            // .allowed_origin("http://localhost:3000/")
+            .allowed_methods(vec!["GET", "POST", "PATCH", "DELETE", "PUT"])
             .allowed_headers(vec![
                 header::CONTENT_TYPE,
                 header::AUTHORIZATION,
